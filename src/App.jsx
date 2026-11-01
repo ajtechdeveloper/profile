@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SceneCanvas from './components/Canvas/SceneCanvas';
 import Navbar from './components/HUD/Navbar';
 import ScrollIndicator from './components/HUD/ScrollIndicator';
@@ -26,6 +28,8 @@ import {
   FileText,
   BookOpen
 } from 'lucide-react';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -71,8 +75,37 @@ export default function App() {
     soundEngine.init();
   }, []);
 
+  // ── Mode Switch & Scroll Refresh Synchronizer ────────────────────────
+  useEffect(() => {
+    // Reset window scroll to top when toggling views so content begins cleanly
+    window.scrollTo({ top: 0, behavior: 'instant' });
+
+    if (!isTextMode) {
+      setActiveStage('hero');
+      setActiveSectionIndex(0);
+
+      // Give DOM a frame to un-hide, then refresh GSAP triggers & reveal visible cards
+      const timer = setTimeout(() => {
+        ScrollTrigger.refresh();
+
+        const targets = document.querySelectorAll('.reveal, .reveal-fade');
+        targets.forEach((el) => {
+          const rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight && rect.bottom > 0) {
+            el.classList.add('visible');
+            el.querySelectorAll('.badge-chip').forEach((chip) => chip.classList.add('visible'));
+          }
+        });
+      }, 100);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isTextMode]);
+
   // ── Intersection Observer for scroll reveal ───────────────────────────
   useEffect(() => {
+    if (isTextMode) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -86,16 +119,19 @@ export default function App() {
           }
         });
       },
-      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+      { threshold: 0.1, rootMargin: '0px 0px -30px 0px' }
     );
 
-    // Observe all reveal targets after a short mount delay
+    // Observe all reveal targets
     const timer = setTimeout(() => {
       document.querySelectorAll('.reveal, .reveal-fade').forEach((el) => observer.observe(el));
-    }, 300);
+    }, 150);
 
-    return () => { clearTimeout(timer); observer.disconnect(); };
-  }, []);
+    return () => {
+      clearTimeout(timer);
+      observer.disconnect();
+    };
+  }, [isTextMode]);
 
   // Jump to section with audio feedback
   const jumpToSection = (sectionId) => {
@@ -124,6 +160,7 @@ export default function App() {
     ];
 
     const handleScroll = () => {
+      if (isTextMode) return;
       const scrollPos = window.scrollY + window.innerHeight * 0.45;
       for (let i = sectionIds.length - 1; i >= 0; i--) {
         const el = document.getElementById(sectionIds[i]);
@@ -141,7 +178,7 @@ export default function App() {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isTextMode]);
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(profileData.contact.email);
@@ -159,9 +196,9 @@ export default function App() {
       {!isTextMode && <div className="cyber-vignette" />}
 
       {/* 3D WebGL Canvas Layer (Real Earth Orbit, Deep-Space Nebulae & Lunar Platform) */}
-      {!isTextMode && (
-        <SceneCanvas onHoverSkill={setHoveredSkillName} isOrbitActive={isOrbitActive} />
-      )}
+      <div style={{ display: isTextMode ? 'none' : 'block' }}>
+        <SceneCanvas onHoverSkill={setHoveredSkillName} isOrbitActive={isOrbitActive && !isTextMode} />
+      </div>
 
       {/* Floating HUD Elements */}
       <Navbar
@@ -196,9 +233,11 @@ export default function App() {
         />
       )}
 
-      {/* Foreground Content Scroller (3D Mode) */}
-      {!isTextMode && (
-        <main className="content-scroller">
+      {/* Foreground Content Scroller (3D Mode) - preserved in DOM to retain state */}
+      <main
+        className="content-scroller"
+        style={{ display: isTextMode ? 'none' : 'block' }}
+      >
         {/* ========================================================
             STAGE 1: THE PRESENT - HERO LANDING (REAL SPATIAL)
            ======================================================== */}
@@ -1277,7 +1316,6 @@ export default function App() {
           </div>
         </section>
       </main>
-      )}
     </div>
   );
 }
