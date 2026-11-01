@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Volume2, VolumeX, Compass, Terminal, Shield, ChevronRight, FileText, Sparkles } from 'lucide-react';
+import { Volume2, VolumeX, Compass, Terminal, Shield, ChevronRight, FileText, Sparkles, Menu, X } from 'lucide-react';
 import { soundEngine } from '../../audio/soundEngine';
 
 export default function Navbar({
@@ -11,6 +11,7 @@ export default function Navbar({
   onToggleTextMode
 }) {
   const [isAudioActive, setIsAudioActive] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     return soundEngine.subscribe(({ isPlaying }) => {
@@ -271,7 +272,137 @@ export default function Navbar({
             {isOrbitActive ? 'ORBIT ACTIVE' : 'ORBIT PAUSED'}
           </button>
         )}
+
+        {/* Mobile Navigation Drawer Toggle Button */}
+        <button
+          onClick={() => {
+            soundEngine.playClick();
+            setIsMobileMenuOpen((prev) => !prev);
+          }}
+          onMouseEnter={() => soundEngine.playHover()}
+          className="mobile-menu-toggle-btn"
+          title={isMobileMenuOpen ? 'Close Navigation Menu' : 'Open Navigation Menu'}
+          style={{
+            display: 'none',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '32px',
+            height: '32px',
+            borderRadius: '8px',
+            background: isMobileMenuOpen ? 'rgba(56, 189, 248, 0.25)' : 'rgba(255, 255, 255, 0.06)',
+            border: `1px solid ${isMobileMenuOpen ? 'var(--accent-orbit)' : 'rgba(255, 255, 255, 0.2)'}`,
+            color: isMobileMenuOpen ? 'var(--accent-orbit)' : '#ffffff',
+            cursor: 'pointer',
+            transition: 'all 0.2s ease',
+            flexShrink: 0
+          }}
+        >
+          {isMobileMenuOpen ? <X size={17} /> : <Menu size={17} />}
+        </button>
       </div>
+
+      {/* Mobile Navigation Dropdown Drawer */}
+      {isMobileMenuOpen && (
+        <div
+          className="mobile-nav-drawer"
+          style={{
+            position: 'absolute',
+            top: '100%',
+            left: 0,
+            width: '100%',
+            background: 'rgba(6, 9, 14, 0.97)',
+            backdropFilter: 'blur(22px)',
+            WebkitBackdropFilter: 'blur(22px)',
+            borderBottom: '1px solid rgba(56, 189, 248, 0.3)',
+            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.85)',
+            padding: '1.2rem 1.4rem 1.6rem 1.4rem',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '0.65rem',
+            pointerEvents: 'auto',
+            zIndex: 60
+          }}
+        >
+          <div
+            style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.68rem',
+              color: 'var(--accent-cyan)',
+              letterSpacing: '0.08em',
+              marginBottom: '0.2rem',
+              textTransform: 'uppercase'
+            }}
+          >
+            // NAVIGATION STAGES
+          </div>
+
+          {navItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => {
+                soundEngine.playClick();
+                setIsMobileMenuOpen(false);
+                onNavigateStage(item.id);
+              }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                background: activeStage === item.id ? 'rgba(56, 189, 248, 0.16)' : 'rgba(255, 255, 255, 0.04)',
+                border: `1px solid ${activeStage === item.id ? 'var(--accent-orbit)' : 'rgba(255, 255, 255, 0.08)'}`,
+                borderRadius: '8px',
+                padding: '0.75rem 1rem',
+                color: activeStage === item.id ? 'var(--accent-cyan)' : '#ffffff',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.82rem',
+                letterSpacing: '0.06em',
+                cursor: 'pointer',
+                textAlign: 'left'
+              }}
+            >
+              <span>{item.label}</span>
+              <ChevronRight size={14} color={activeStage === item.id ? 'var(--accent-cyan)' : 'var(--text-dim)'} />
+            </button>
+          ))}
+
+          {!isTextMode && (
+            <button
+              onClick={() => {
+                onToggleOrbit();
+                soundEngine.playClick();
+              }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                background: isOrbitActive ? 'rgba(16, 185, 129, 0.12)' : 'rgba(245, 158, 11, 0.12)',
+                border: `1px solid ${isOrbitActive ? 'rgba(16, 185, 129, 0.45)' : 'rgba(245, 158, 11, 0.45)'}`,
+                borderRadius: '8px',
+                padding: '0.75rem 1rem',
+                color: isOrbitActive ? 'var(--accent-emerald)' : '#fbbf24',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.8rem',
+                cursor: 'pointer',
+                marginTop: '0.3rem'
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <span
+                  style={{
+                    width: '6px',
+                    height: '6px',
+                    borderRadius: '50%',
+                    backgroundColor: isOrbitActive ? 'var(--accent-emerald)' : '#fbbf24',
+                    boxShadow: isOrbitActive ? '0 0 8px var(--accent-emerald)' : '0 0 8px #fbbf24'
+                  }}
+                />
+                <span>3D ORBIT SIMULATION</span>
+              </div>
+              <span style={{ fontWeight: 700 }}>{isOrbitActive ? 'ACTIVE' : 'PAUSED'}</span>
+            </button>
+          )}
+        </div>
+      )}
 
       <style>{`
         @keyframes eq1 { 0%, 100% { height: 3px; } 50% { height: 11px; } }
@@ -284,6 +415,7 @@ export default function Navbar({
 
         @media (max-width: 820px) {
           .hidden-mobile { display: none !important; }
+          .mobile-menu-toggle-btn { display: flex !important; }
         }
       `}</style>
     </header>
