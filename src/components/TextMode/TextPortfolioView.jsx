@@ -622,7 +622,7 @@ export default function TextPortfolioView({ onSwitchTo3D }) {
           color: 'var(--text-dim, #94a3b8)'
         }}
       >
-        <div>© {new Date().getFullYear()} George Ninan · Bengaluru, India</div>
+        <div>© {new Date().getFullYear()} George Ninan · Bangalore, India</div>
         <button
           onClick={onSwitchTo3D}
           className="cyber-btn"

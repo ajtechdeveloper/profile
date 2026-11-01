@@ -501,7 +501,7 @@ export default function App() {
                         boxShadow: '0 0 6px #10b981'
                       }}
                     />
-                    SAGE INTACCT · BENGALURU
+                    SAGE INTACCT · BANGALORE
                   </div>
                 </div>
 

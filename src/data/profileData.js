@@ -3,7 +3,7 @@ export const profileData = {
     name: "George Ninan",
     title: "Director of Software Engineering",
     company: "Sage Intacct",
-    location: "Greater Bengaluru Area",
+    location: "Greater Bangalore Area",
     tagline: "Architecting Next-Gen AI Transformation, Cloud-Native Distributed Systems & High-Velocity Engineering Organizations.",
     summary:
       "Accomplished Engineering Leader with 21+ years driving AI transformation, enterprise architecture, and high-scale SaaS products. Proven track record in orchestrating multi-tenant cloud platforms, autonomous AI accounting workflows, IoT telemetry pipelines, and scaling elite cross-functional teams.",
