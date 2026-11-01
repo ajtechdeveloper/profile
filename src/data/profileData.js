@@ -6,9 +6,9 @@ export const profileData = {
     location: "Greater Bengaluru Area",
     tagline: "Architecting Next-Gen AI Transformation, Cloud-Native Distributed Systems & High-Velocity Engineering Organizations.",
     summary:
-      "Accomplished Engineering Leader with 20+ years driving AI transformation, enterprise architecture, and high-scale SaaS products. Proven track record in orchestrating multi-tenant cloud platforms, autonomous AI accounting workflows, IoT telemetry pipelines, and scaling elite cross-functional teams.",
+      "Accomplished Engineering Leader with 21+ years driving AI transformation, enterprise architecture, and high-scale SaaS products. Proven track record in orchestrating multi-tenant cloud platforms, autonomous AI accounting workflows, IoT telemetry pipelines, and scaling elite cross-functional teams.",
     quickMetrics: [
-      { label: "Engineering Leadership", value: "20+ Yrs" },
+      { label: "Engineering Leadership", value: "21+ Yrs" },
       { label: "Distributed Architecture", value: "AI & Systems" },
       { label: "Sage Intacct", value: "Director" },
       { label: "Cloud-Native SaaS", value: "Multi-Tenant" }

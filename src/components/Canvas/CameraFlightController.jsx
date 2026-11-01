@@ -10,6 +10,14 @@ export default function CameraFlightController({ isOrbitActive = true }) {
   const { camera, pointer } = useThree();
   const currentProgressRef = useRef(0);
   const targetProgressRef = useRef(0);
+  const lookTarget = useMemo(() => new THREE.Vector3(), []);
+
+  // Detect touch / mobile device to eliminate touch pointer conflicts
+  const isTouchDevice = useMemo(() => {
+    return typeof window !== 'undefined' && (
+      'ontouchstart' in window || navigator.maxTouchPoints > 0 || window.innerWidth < 820
+    );
+  }, []);
 
   // Define 3D CatmullRom spline path for continuous smooth camera flight
   const { camPath, targetPath } = useMemo(() => {
@@ -54,7 +62,7 @@ export default function CameraFlightController({ isOrbitActive = true }) {
       trigger: document.body,
       start: 'top top',
       end: 'bottom bottom',
-      scrub: 0.5,
+      scrub: isTouchDevice ? 0.08 : 0.25,
       onUpdate: (self) => {
         targetProgressRef.current = Math.min(Math.max(self.progress, 0), 0.999);
       }
@@ -63,15 +71,16 @@ export default function CameraFlightController({ isOrbitActive = true }) {
     return () => {
       trigger.kill();
     };
-  }, []);
+  }, [isTouchDevice]);
 
   // Frame loop with smooth lerping & subtle pointer parallax
   useFrame((state, delta) => {
-    // Smooth dampening towards target scroll progress
+    // Ultra-responsive dampening on mobile (14.0) prevents sluggish camera lag
+    const dampRate = isTouchDevice ? 14.0 : 7.5;
     currentProgressRef.current = THREE.MathUtils.damp(
       currentProgressRef.current,
       targetProgressRef.current,
-      6.0,
+      dampRate,
       delta
     );
 
@@ -80,15 +89,16 @@ export default function CameraFlightController({ isOrbitActive = true }) {
     const baseCamPos = camPath.getPointAt(t);
     const baseTargetPos = targetPath.getPointAt(t);
 
-    // Subtle cursor parallax when orbit is active
-    const parallaxX = isOrbitActive ? pointer.x * 0.45 : 0;
-    const parallaxY = isOrbitActive ? pointer.y * 0.35 : 0;
+    // Disable erratic touch pointer parallax on touch devices
+    const parallaxX = (isOrbitActive && !isTouchDevice) ? pointer.x * 0.45 : 0;
+    const parallaxY = (isOrbitActive && !isTouchDevice) ? pointer.y * 0.35 : 0;
 
     camera.position.x = baseCamPos.x + parallaxX;
     camera.position.y = baseCamPos.y + parallaxY;
     camera.position.z = baseCamPos.z;
 
-    const lookTarget = new THREE.Vector3(
+    // Mutate pre-allocated Vector3 instead of allocating new objects per frame
+    lookTarget.set(
       baseTargetPos.x + parallaxX * 0.3,
       baseTargetPos.y + parallaxY * 0.3,
       baseTargetPos.z

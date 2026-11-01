@@ -39,7 +39,7 @@ export default function TextPortfolioView({ onSwitchTo3D }) {
         minHeight: '100vh',
         background: '#070b14',
         color: '#f8fafc',
-        padding: 'clamp(5.2rem, 10vh, 7rem) clamp(1rem, 4vw, 2rem) 5rem clamp(1rem, 4vw, 2rem)',
+        padding: '7rem 2rem 5rem 2rem',
         maxWidth: '940px',
         margin: '0 auto',
         fontFamily: "var(--font-body, 'Space Grotesk', sans-serif)",
@@ -210,8 +210,8 @@ export default function TextPortfolioView({ onSwitchTo3D }) {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 140px), 1fr))',
-            gap: '0.85rem',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+            gap: '1rem',
             marginTop: '1.5rem'
           }}
         >
@@ -264,7 +264,7 @@ export default function TextPortfolioView({ onSwitchTo3D }) {
             paddingBottom: '0.5rem'
           }}
         >
-          // 02 · Leadership Chronicle (20+ Years)
+          // 02 · Leadership Chronicle (21+ Years)
         </h2>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>

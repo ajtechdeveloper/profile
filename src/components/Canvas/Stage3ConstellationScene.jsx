@@ -34,7 +34,11 @@ function SkillNode({ skill, onHoverSkill }) {
   useFrame((state, delta) => {
     if (meshRef.current) {
       const targetScale = hovered ? 1.4 : 1.0;
-      meshRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), delta * 8);
+      const currentScale = meshRef.current.scale.x;
+      if (Math.abs(currentScale - targetScale) > 0.005) {
+        const nextScale = THREE.MathUtils.lerp(currentScale, targetScale, delta * 8);
+        meshRef.current.scale.set(nextScale, nextScale, nextScale);
+      }
     }
   });
 

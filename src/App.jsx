@@ -195,8 +195,18 @@ export default function App() {
       {/* Cinematic Spatial Vignette (Transparent over real space environment) */}
       {!isTextMode && <div className="cyber-vignette" />}
 
-      {/* 3D WebGL Canvas Layer (Real Earth Orbit, Deep-Space Nebulae & Lunar Platform) */}
-      <div style={{ display: isTextMode ? 'none' : 'block' }}>
+      {/* 3D WebGL Canvas Layer (Fixed Deep Space Environment - NEVER display:none to prevent white canvas flash) */}
+      <div
+        style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 1,
+          opacity: isTextMode ? 0 : 1,
+          visibility: isTextMode ? 'hidden' : 'visible',
+          transition: 'opacity 0.25s ease',
+          pointerEvents: 'none'
+        }}
+      >
         <SceneCanvas onHoverSkill={setHoveredSkillName} isOrbitActive={isOrbitActive && !isTextMode} />
       </div>
 
@@ -667,8 +677,8 @@ export default function App() {
                               ? role.accent
                               : 'rgba(255, 255, 255, 0.05)',
                           border: `1px solid ${hoveredSkillName === skill
-                              ? '#ffffff'
-                              : 'rgba(255, 255, 255, 0.12)'
+                            ? '#ffffff'
+                            : 'rgba(255, 255, 255, 0.12)'
                             }`,
                           padding: '0.25rem 0.65rem',
                           borderRadius: '4px',
@@ -760,7 +770,7 @@ export default function App() {
                   lineHeight: '1.6'
                 }}
               >
-                20+ years of engineering leadership across AI, distributed systems,
+                21+ years of engineering leadership across AI, distributed systems,
                 cloud architecture, and enterprise-scale product delivery.
               </p>
             </div>
