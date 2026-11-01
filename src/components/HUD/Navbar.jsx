@@ -33,13 +33,13 @@ export default function Navbar({
 
   return (
     <header
+      className="navbar-header"
       style={{
         position: 'fixed',
         top: 0,
         left: 0,
         width: '100%',
         zIndex: 50,
-        padding: '1.2rem 2.5rem',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -53,7 +53,7 @@ export default function Navbar({
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '0.9rem',
+          gap: '0.75rem',
           pointerEvents: 'auto',
           cursor: 'pointer'
         }}
@@ -73,7 +73,8 @@ export default function Navbar({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            boxShadow: '0 0 15px rgba(0, 240, 255, 0.2)'
+            boxShadow: '0 0 15px rgba(0, 240, 255, 0.2)',
+            flexShrink: 0
           }}
         >
           <span
@@ -89,22 +90,26 @@ export default function Navbar({
         </div>
         <div>
           <div
+            className="navbar-brand-name"
             style={{
               fontFamily: 'var(--font-display)',
               fontSize: '1rem',
               fontWeight: 700,
               letterSpacing: '0.02em',
-              color: '#ffffff'
+              color: '#ffffff',
+              whiteSpace: 'nowrap'
             }}
           >
             GEORGE NINAN
           </div>
           <div
+            className="navbar-brand-subtitle"
             style={{
               fontFamily: 'var(--font-mono)',
               fontSize: '0.68rem',
               color: 'var(--accent-cyan)',
-              letterSpacing: '0.08em'
+              letterSpacing: '0.08em',
+              whiteSpace: 'nowrap'
             }}
           >
             DIRECTOR // AI & DISTRIBUTED SYSTEMS
@@ -166,7 +171,7 @@ export default function Navbar({
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '0.55rem',
+            gap: '0.45rem',
             background: isTextMode
               ? 'rgba(56, 189, 248, 0.22)'
               : 'rgba(255, 255, 255, 0.08)',
@@ -174,21 +179,23 @@ export default function Navbar({
               ? '1px solid var(--accent-orbit, #38bdf8)'
               : '1px solid rgba(255, 255, 255, 0.28)',
             borderRadius: '20px',
-            padding: '0.45rem 0.95rem',
+            padding: '0.42rem 0.85rem',
             cursor: 'pointer',
             color: isTextMode ? 'var(--accent-orbit, #38bdf8)' : '#ffffff',
             fontFamily: 'var(--font-mono)',
-            fontSize: '0.74rem',
+            fontSize: '0.72rem',
             fontWeight: 700,
-            letterSpacing: '0.06em',
+            letterSpacing: '0.05em',
             transition: 'all 0.25s ease',
+            whiteSpace: 'nowrap',
             boxShadow: isTextMode
               ? '0 0 16px rgba(56, 189, 248, 0.4)'
               : '0 2px 8px rgba(0, 0, 0, 0.3)'
           }}
         >
           {isTextMode ? <Sparkles size={14} /> : <FileText size={14} />}
-          <span>{isTextMode ? '3D VERSION' : 'TEXT VERSION'}</span>
+          <span className="text-mode-btn-text-long">{isTextMode ? '3D VERSION' : 'TEXT VERSION'}</span>
+          <span className="text-mode-btn-text-short">{isTextMode ? '3D' : 'TEXT'}</span>
         </button>
 
         {/* Procedural Web Audio Synthesizer Toggle */}
@@ -200,25 +207,26 @@ export default function Navbar({
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '0.6rem',
+              gap: '0.5rem',
               background: isAudioActive ? 'rgba(0, 240, 255, 0.15)' : 'rgba(255, 255, 255, 0.04)',
               border: `1px solid ${isAudioActive ? 'var(--accent-cyan)' : 'rgba(255, 255, 255, 0.15)'}`,
               borderRadius: '20px',
-              padding: '0.45rem 0.9rem',
+              padding: '0.42rem 0.75rem',
               cursor: 'pointer',
               color: isAudioActive ? 'var(--accent-cyan)' : 'var(--text-muted)',
               fontFamily: 'var(--font-mono)',
-              fontSize: '0.75rem',
+              fontSize: '0.72rem',
               transition: 'all 0.25s ease',
+              whiteSpace: 'nowrap',
               boxShadow: isAudioActive ? '0 0 15px rgba(0, 240, 255, 0.3)' : 'none'
             }}
           >
-            {isAudioActive ? <Volume2 size={15} /> : <VolumeX size={15} />}
-            <span>{isAudioActive ? 'AUDIO · PLAYING' : 'AUDIO · MUTED'}</span>
+            {isAudioActive ? <Volume2 size={14} /> : <VolumeX size={14} />}
+            <span className="audio-btn-text">{isAudioActive ? 'AUDIO ON' : 'AUDIO OFF'}</span>
 
             {/* Equalizer Bars when audio is running */}
             {isAudioActive && (
-              <div style={{ display: 'flex', gap: '2px', alignItems: 'flex-end', height: '12px' }}>
+              <div style={{ display: 'flex', gap: '2px', alignItems: 'flex-end', height: '11px' }}>
                 <span className="eq-bar eq-bar-1" />
                 <span className="eq-bar eq-bar-2" />
                 <span className="eq-bar eq-bar-3" />

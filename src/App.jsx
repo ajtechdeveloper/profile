@@ -209,15 +209,15 @@ export default function App() {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            padding: '7rem 8% 4rem 8%',
+            padding: 'clamp(5.5rem, 10vh, 7rem) 6% 4rem 6%',
             position: 'relative'
           }}
         >
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-              gap: '3rem',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
+              gap: '2.5rem',
               alignItems: 'center',
               maxWidth: '1200px',
               width: '100%'
@@ -276,8 +276,8 @@ export default function App() {
               <div
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(135px, 1fr))',
-                  gap: '0.85rem',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 130px), 1fr))',
+                  gap: '0.75rem',
                   marginBottom: '2.5rem',
                   maxWidth: '640px'
                 }}
@@ -980,8 +980,8 @@ export default function App() {
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))',
-                gap: '2rem'
+                gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
+                gap: '1.8rem'
               }}
             >
               {profileData.posts.map((post) => (
@@ -1180,6 +1180,9 @@ export default function App() {
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
+                justifyContent: 'center',
+                flexWrap: 'wrap',
+                maxWidth: '100%',
                 gap: '0.8rem',
                 background: 'rgba(56, 189, 248, 0.08)',
                 border: '1px solid rgba(56, 189, 248, 0.35)',

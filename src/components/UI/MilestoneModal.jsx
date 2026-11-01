@@ -22,7 +22,7 @@ export default function MilestoneModal({ role, onClose }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '1.5rem',
+        padding: 'clamp(0.75rem, 3vw, 1.5rem)',
         background: 'rgba(6, 9, 14, 0.85)',
         backdropFilter: 'blur(16px)',
         WebkitBackdropFilter: 'blur(16px)'
@@ -33,12 +33,12 @@ export default function MilestoneModal({ role, onClose }) {
         style={{
           maxWidth: '680px',
           width: '100%',
-          maxHeight: '85vh',
+          maxHeight: '90vh',
           overflowY: 'auto',
           background: 'rgba(11, 18, 30, 0.95)',
           border: `1px solid ${role.accent || 'var(--accent-cyan)'}`,
           borderRadius: '16px',
-          padding: '2.4rem',
+          padding: 'clamp(1.4rem, 4vw, 2.4rem)',
           position: 'relative',
           boxShadow: `0 25px 70px rgba(0, 0, 0, 0.9), 0 0 40px ${role.accent}33`
         }}
