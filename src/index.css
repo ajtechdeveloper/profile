@@ -1,0 +1,328 @@
+:root {
+  --bg-primary: #050811;
+  --bg-secondary: #0d1527;
+  --bg-card: rgba(15, 23, 42, 0.75);
+  --bg-glass: rgba(13, 21, 38, 0.72);
+  --border-spatial: rgba(56, 189, 248, 0.28);
+  --border-spatial-glow: rgba(56, 189, 248, 0.65);
+  --accent-orbit: #38bdf8;
+  --accent-sun: #fbbf24;
+  --accent-earth: #38bdf8;
+  --accent-lunar: #e2e8f0;
+  --accent-cyan: #00f0ff;
+  --text-main: #f8fafc;
+  --text-muted: #cbd5e1;
+  --text-dim: #94a3b8;
+  --font-display: 'Plus Jakarta Sans', 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  width: 100%;
+}
+
+/* Custom Spatial Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(5, 8, 17, 0.95);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(56, 189, 248, 0.35);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-orbit);
+  box-shadow: 0 0 12px var(--accent-orbit);
+}
+
+/* 3D WebGL Canvas Fixed Layer */
+.webgl-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+/* Real Spatial Cinematic Vignette (Soft atmospheric gradient) */
+.cyber-vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, transparent 45%, rgba(5, 8, 17, 0.65) 95%);
+}
+
+/* Foreground Content Scroller */
+.content-scroller {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+}
+
+/* Milestone Section Layout */
+.timeline-section {
+  position: relative;
+  min-height: 120vh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 4rem 8% 4rem 8%;
+  pointer-events: none;
+}
+
+.timeline-section.left-aligned {
+  justify-content: flex-start;
+}
+
+.timeline-section.center-aligned {
+  justify-content: center;
+}
+
+/* Spatial Monolith Card (Physical Frosted Glass & Specular Bevel) */
+.timeline-card {
+  pointer-events: auto;
+  max-width: 580px;
+  width: 100%;
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-spatial);
+  border-radius: 16px;
+  padding: 2.2rem;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 25px rgba(56, 189, 248, 0.12);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.35s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.timeline-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent-orbit), transparent);
+  opacity: 0.85;
+}
+
+.timeline-card:hover {
+  border-color: var(--border-spatial-glow);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.85), 0 0 35px rgba(56, 189, 248, 0.25);
+  transform: translateY(-4px);
+}
+
+/* Spatial Telemetry Tag */
+.telemetry-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-orbit);
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+  margin-bottom: 1.2rem;
+}
+
+.pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--accent-orbit);
+  box-shadow: 0 0 8px var(--accent-orbit);
+  animation: pulseGlow 2s infinite ease-in-out;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.4; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
+/* Spatial Action Buttons */
+.cyber-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #030712;
+  background: #38bdf8;
+  border: none;
+  border-radius: 8px;
+  padding: 0.85rem 1.6rem;
+  cursor: pointer;
+  box-shadow: 0 0 25px rgba(56, 189, 248, 0.4);
+  transition: all 0.25s ease;
+  text-decoration: none;
+}
+
+.cyber-btn:hover {
+  background: #ffffff;
+  box-shadow: 0 0 35px rgba(56, 189, 248, 0.8);
+  transform: translateY(-2px);
+}
+
+.cyber-btn-outline {
+  background: rgba(255, 255, 255, 0.04);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.5);
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
+}
+
+.cyber-btn-outline:hover {
+  background: rgba(56, 189, 248, 0.15);
+  color: #ffffff;
+  border-color: #ffffff;
+  box-shadow: 0 0 30px rgba(56, 189, 248, 0.4);
+}
+
+/* Typography Utilities */
+h1, h2, h3, h4, h5, h6 {
+  overflow: visible;
+  line-height: 1.25;
+}
+
+.heading-display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+  overflow: visible;
+}
+
+.heading-mono {
+  font-family: var(--font-mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ── Scroll Reveal Entrance Animations ──────────────────────────────── */
+
+@keyframes revealUp {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes revealFade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.reveal {
+  opacity: 0;
+}
+
+.reveal.visible {
+  animation: revealUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.reveal-fade.visible {
+  animation: revealFade 0.8s ease forwards;
+}
+
+/* Badge chip cascade — children get staggered delay via CSS var --i */
+.badge-chip {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease,
+              color 0.2s ease;
+}
+
+.badge-chip.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Glass Card Upgrade ───────────────────────────────────────────── */
+
+/* Enhanced backdrop saturation for glass depth */
+.timeline-card {
+  backdrop-filter: blur(22px) saturate(160%);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+}
+
+/* Role-colored glow on card hover — set via inline --card-accent var */
+.timeline-card:hover {
+  border-color: var(--card-accent, var(--border-spatial-glow));
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.85), 0 0 30px color-mix(in srgb, var(--card-accent, #38bdf8) 35%, transparent);
+}
+
+/* ── Section Background Gradient Journey ─────────────────────────── */
+/* Subtle shifting background hue as user scrolls through timeline */
+
+#hero        { --section-tint: rgba(0, 30, 60, 0.0); }
+#sage        { --section-tint: rgba(0, 30, 55, 0.18); }
+#apptio      { --section-tint: rgba(0, 28, 52, 0.22); }
+#jpmorgan-sr { --section-tint: rgba(0, 30, 42, 0.2); }
+#ola         { --section-tint: rgba(30, 20, 0, 0.15); }
+#fico        { --section-tint: rgba(30, 0, 45, 0.2); }
+#metabyte    { --section-tint: rgba(45, 0, 25, 0.18); }
+#jpmorgan-bpm{ --section-tint: rgba(0, 25, 45, 0.2); }
+#satyam      { --section-tint: rgba(0, 30, 38, 0.22); }
+#skills      { --section-tint: rgba(0, 20, 40, 0.15); }
+#posts       { --section-tint: rgba(0, 32, 56, 0.22); }
+#terminal    { --section-tint: rgba(0, 20, 45, 0.25); }
+
+section[id] {
+  background: var(--section-tint, transparent);
+  transition: background 0.8s ease;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────── */
+
+@media (max-width: 820px) {
+  .timeline-section {
+    padding: 2.5rem 5%;
+    justify-content: center !important;
+  }
+  .timeline-card {
+    padding: 1.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .timeline-card {
+    max-width: 100%;
+    border-radius: 12px;
+    padding: 1.4rem;
+  }
+  .cyber-btn {
+    padding: 0.75rem 1.2rem;
+    font-size: 0.8rem;
+  }
+}
