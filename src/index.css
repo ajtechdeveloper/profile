@@ -51,7 +51,7 @@ html, body {
   box-shadow: 0 0 12px var(--accent-orbit);
 }
 
-/* 3D WebGL Canvas Fixed Layer */
+/* 3D WebGL Canvas Fixed Layer - Strictly styled dark to prevent white flash */
 .webgl-container {
   position: fixed;
   top: 0;
@@ -59,10 +59,14 @@ html, body {
   width: 100vw;
   height: 100vh;
   z-index: 1;
+  background: #06090e !important;
+  background-color: #06090e !important;
   pointer-events: none !important;
 }
 
 .webgl-container canvas {
+  background: #06090e !important;
+  background-color: #06090e !important;
   pointer-events: none !important;
 }
 

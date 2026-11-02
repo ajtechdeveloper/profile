@@ -31,6 +31,11 @@ class SoundEngine {
     this.windFilter = null;
     this.chimeTimeout = null;
     this.oscillators = [];
+
+    // Tab switching & window blur/focus tracking
+    this.wasPlayingBeforeInactive = false;
+    this._hasSetupFocusListeners = false;
+    this._setupTabAndFocusManagement();
   }
 
   subscribe(listener) {
@@ -132,9 +137,47 @@ class SoundEngine {
     window.addEventListener('keydown', unlockAndPlay, { passive: true });
   }
 
+  // ─── Automatic Pause on Tab Switch / ALT-Tab & Resume on Return ───────────
+
+  _setupTabAndFocusManagement() {
+    if (this._hasSetupFocusListeners || typeof window === 'undefined') return;
+    this._hasSetupFocusListeners = true;
+
+    const handleInactive = () => {
+      // User switched tab, minimized browser, locked mobile phone, or ALT-Tabbed away
+      if (this.ctx && this.isPlaying && this.ctx.state === 'running') {
+        this.wasPlayingBeforeInactive = true;
+        this.ctx.suspend().catch(() => {});
+      }
+    };
+
+    const handleActive = () => {
+      // User returned back to this tab / window
+      if (this.ctx && this.wasPlayingBeforeInactive && this.isPlaying) {
+        this.wasPlayingBeforeInactive = false;
+        this.ctx.resume().catch(() => {});
+      }
+    };
+
+    // Tab visibility changes (switching browser tabs, minimizing window, app switching)
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        handleInactive();
+      } else {
+        handleActive();
+      }
+    });
+
+    // Window focus / blur (ALT-Tab to another desktop app or window)
+    window.addEventListener('blur', handleInactive);
+    window.addEventListener('focus', handleActive);
+  }
+
   async startAudio() {
     this.init();
     if (!this.ctx) return;
+
+    this.wasPlayingBeforeInactive = false;
 
     try {
       if (this.ctx.state === 'suspended') {
@@ -159,6 +202,7 @@ class SoundEngine {
   stopAudio() {
     if (!this.ctx || !this.masterGain) return;
 
+    this.wasPlayingBeforeInactive = false;
     this.stopVoiceover();
     this.isPlaying = false;
     const now = this.ctx.currentTime;

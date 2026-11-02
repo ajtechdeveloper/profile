@@ -19,7 +19,20 @@ export default function SceneCanvas({ onHoverSkill, isOrbitActive = true }) {
         gl={{
           antialias: true,
           powerPreference: 'high-performance',
-          alpha: false
+          alpha: true
+        }}
+        onCreated={({ gl }) => {
+          gl.setClearColor('#06090e', 1);
+          const canvas = gl.domElement;
+          if (canvas) {
+            canvas.style.backgroundColor = '#06090e';
+            canvas.addEventListener('webglcontextlost', (e) => {
+              e.preventDefault(); // Prevents browser from permanently killing context
+            }, false);
+            canvas.addEventListener('webglcontextrestored', () => {
+              gl.setClearColor('#06090e', 1);
+            }, false);
+          }
         }}
       >
         <color attach="background" args={['#06090e']} />

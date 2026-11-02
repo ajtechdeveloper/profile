@@ -195,15 +195,12 @@ export default function App() {
       {/* Cinematic Spatial Vignette (Transparent over real space environment) */}
       {!isTextMode && <div className="cyber-vignette" />}
 
-      {/* 3D WebGL Canvas Layer (Fixed Deep Space Environment - NEVER display:none to prevent white canvas flash) */}
+      {/* 3D WebGL Canvas Layer (Fixed Deep Space Environment - always preserved to keep WebGL context & GPU surface alive) */}
       <div
         style={{
           position: 'fixed',
           inset: 0,
           zIndex: 1,
-          opacity: isTextMode ? 0 : 1,
-          visibility: isTextMode ? 'hidden' : 'visible',
-          transition: 'opacity 0.25s ease',
           pointerEvents: 'none'
         }}
       >
@@ -233,14 +230,21 @@ export default function App() {
         <MilestoneModal role={selectedRole} onClose={() => setSelectedRole(null)} />
       )}
 
-      {/* Accessible Text Mode Portfolio View */}
+      {/* Accessible Text Mode Portfolio View (Rendered above canvas at zIndex 10 with matching space-dark background) */}
       {isTextMode && (
-        <TextPortfolioView
-          onSwitchTo3D={() => {
-            soundEngine.playClick();
-            setIsTextMode(false);
+        <div
+          style={{
+            position: 'relative',
+            zIndex: 10,
+            width: '100%',
+            minHeight: '100vh',
+            backgroundColor: '#050811'
           }}
-        />
+        >
+          <TextPortfolioView
+            onSwitchTo3D={handleToggleTextMode}
+          />
+        </div>
       )}
 
       {/* Foreground Content Scroller (3D Mode) - preserved in DOM to retain state */}
