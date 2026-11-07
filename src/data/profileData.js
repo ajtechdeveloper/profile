@@ -2,7 +2,7 @@ export const profileData = {
   hero: {
     name: "George Ninan",
     title: "Director of Software Engineering",
-    company: "Sage Intacct",
+    company: "Sage",
     location: "Greater Bangalore Area",
     tagline: "Architecting Next-Gen AI Transformation, Cloud-Native Distributed Systems & High-Velocity Engineering Organizations.",
     summary:
@@ -10,7 +10,7 @@ export const profileData = {
     quickMetrics: [
       { label: "Engineering Leadership", value: "21+ Yrs" },
       { label: "Distributed Architecture", value: "AI & Systems" },
-      { label: "Sage Intacct", value: "Director" },
+      { label: "Sage", value: "Director" },
       { label: "Cloud-Native SaaS", value: "Multi-Tenant" }
     ]
   },
@@ -249,6 +249,6 @@ export const profileData = {
     email: "georgen2001@gmail.com",
     linkedin: "https://www.linkedin.com/in/george-ninan-31611434",
     location: "Bengaluru, Karnataka, India",
-    status: "Director of Software Engineering @ Sage Intacct"
+    status: "Director of Software Engineering @ Sage"
   }
 };
