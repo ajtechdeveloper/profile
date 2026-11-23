@@ -11,7 +11,9 @@ import {
   Briefcase,
   Layers,
   ArrowUpRight,
-  Printer
+  Printer,
+  Calendar,
+  BookOpen
 } from 'lucide-react';
 import { profileData } from '../../data/profileData';
 import { soundEngine } from '../../audio/soundEngine';
@@ -137,6 +139,19 @@ export default function TextPortfolioView({ onSwitchTo3D }) {
               style={{ fontSize: '0.78rem', padding: '0.55rem 1.1rem', textDecoration: 'none' }}
             >
               <span>LinkedIn</span>
+              <ExternalLink size={14} />
+            </a>
+
+            <a
+              href={profileData.contact.blog}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => soundEngine.playClick()}
+              className="cyber-btn cyber-btn-outline"
+              style={{ fontSize: '0.78rem', padding: '0.55rem 1.1rem', textDecoration: 'none' }}
+            >
+              <BookOpen size={14} />
+              <span>Software Developer Central</span>
               <ExternalLink size={14} />
             </a>
 
@@ -392,7 +407,9 @@ export default function TextPortfolioView({ onSwitchTo3D }) {
           </h2>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))', gap: '1.4rem' }}>
-            {profileData.posts.map((post) => (
+            {[...profileData.posts]
+              .sort((a, b) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime())
+              .map((post) => (
               <article
                 key={post.id}
                 style={{
@@ -413,10 +430,27 @@ export default function TextPortfolioView({ onSwitchTo3D }) {
                       fontSize: '0.72rem',
                       color: post.accent,
                       textTransform: 'uppercase',
-                      marginBottom: '0.5rem'
+                      marginBottom: '0.6rem',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      flexWrap: 'wrap',
+                      gap: '0.5rem'
                     }}
                   >
-                    {post.category} · {post.readTime}
+                    <span>{post.category} · {post.readTime}</span>
+                    <span
+                      style={{
+                        color: 'var(--text-dim, #94a3b8)',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.35rem',
+                        textTransform: 'none'
+                      }}
+                    >
+                      <Calendar size={12} color="var(--accent-orbit, #38bdf8)" />
+                      {post.publishedDateFormatted || post.publishedDate}
+                    </span>
                   </div>
                   <h3
                     style={{
@@ -461,6 +495,84 @@ export default function TextPortfolioView({ onSwitchTo3D }) {
                 </a>
               </article>
             ))}
+          </div>
+
+          {/* Featured Engineering Blog Callout Banner */}
+          <div
+            style={{
+              marginTop: '1.6rem',
+              padding: '1.4rem 1.6rem',
+              borderLeft: '4px solid #f59e0b',
+              background: 'rgba(245, 158, 11, 0.06)',
+              border: '1px solid rgba(245, 158, 11, 0.25)',
+              borderLeftWidth: '4px',
+              borderRadius: '8px',
+              display: 'flex',
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '1.2rem'
+            }}
+          >
+            <div style={{ maxWidth: '620px' }}>
+              <div
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.7rem',
+                  color: '#f59e0b',
+                  textTransform: 'uppercase',
+                  marginBottom: '0.4rem',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.4rem'
+                }}
+              >
+                <BookOpen size={12} />
+                <span>Technical Engineering Blog</span>
+              </div>
+              <h3
+                style={{
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  fontSize: '1.15rem',
+                  fontWeight: 700,
+                  color: '#ffffff',
+                  marginBottom: '0.4rem'
+                }}
+              >
+                Software Developer Central
+              </h3>
+              <p
+                style={{
+                  fontSize: '0.86rem',
+                  color: 'var(--text-muted, #cbd5e1)',
+                  lineHeight: 1.6,
+                  margin: 0
+                }}
+              >
+                Explore deep-dive technical articles and engineering methodologies authored on cloud-native patterns, distributed systems, and modern software craft.
+              </p>
+            </div>
+
+            <a
+              href={profileData.contact.blog}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => soundEngine.playClick()}
+              className="cyber-btn cyber-btn-outline"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                fontSize: '0.78rem',
+                textDecoration: 'none',
+                padding: '0.6rem 1.2rem',
+                borderColor: '#f59e0b',
+                color: '#f59e0b'
+              }}
+            >
+              <span>Read Articles on Blogspot</span>
+              <ExternalLink size={13} />
+            </a>
           </div>
         </section>
       )}

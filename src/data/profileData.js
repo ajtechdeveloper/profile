@@ -201,14 +201,16 @@ export const profileData = {
 
   posts: [
     {
-      id: "ai-security-architecture",
+      id: "deterministic-resilience-architecture",
       category: "Technical White Paper",
-      title: "Technical White Paper: Implementing an AI Security Architecture: A Definitive Framework for Modern Enterprise Software Systems",
-      summary: "A comprehensive executive architectural framework addressing attack vectors, governance boundaries, model alignment, runtime threat mitigation, and compliance for enterprise-grade autonomous and generative AI deployments.",
-      url: "https://www.linkedin.com/pulse/technical-white-paper-implementing-ai-security-definitive-ninan-c6rmc/",
-      readTime: "Executive Architecture Brief",
-      accent: "#00f0ff",
-      tags: ["AI Security", "Enterprise Architecture", "Threat Modeling", "AI Governance"]
+      title: "Technical White Paper: Deterministic Resilience, Failure Containment, and Distributed Systems Architecture",
+      summary: "An architectural deep-dive addressing the Hyperscale Fragility Paradox, blast-radius containment, cell-based architecture, and deterministic recovery patterns for mission-critical enterprise systems.",
+      url: "https://www.linkedin.com/pulse/technical-white-paper-deterministic-resilience-failure-george-ninan-jfrnf",
+      readTime: "Executive White Paper",
+      publishedDate: "2026-11-20",
+      publishedDateFormatted: "Nov 20, 2026",
+      accent: "#a855f7",
+      tags: ["Deterministic Resilience", "Failure Containment", "Distributed Systems", "Cell-Based Architecture", "High Availability"]
     },
     {
       id: "ai-engineering-maturity-model",
@@ -217,8 +219,22 @@ export const profileData = {
       summary: "Strategic roadmap for engineering organizations transitioning across five evolutionary stages of AI adoption — evaluating developer productivity, agentic code generation, autonomous testing, and self-healing systems.",
       url: "https://www.linkedin.com/pulse/ai-engineering-maturity-model-from-ai-assisted-george-ninan-ygrbf",
       readTime: "Strategic Engineering Framework",
+      publishedDate: "2026-11-01",
+      publishedDateFormatted: "Nov 1, 2026",
       accent: "#38bdf8",
       tags: ["AI Maturity Model", "Autonomous Engineering", "Engineering Strategy", "Agentic Systems"]
+    },
+    {
+      id: "ai-security-architecture",
+      category: "Technical White Paper",
+      title: "Technical White Paper: Implementing an AI Security Architecture: A Definitive Framework for Modern Enterprise Software Systems",
+      summary: "A comprehensive executive architectural framework addressing attack vectors, governance boundaries, model alignment, runtime threat mitigation, and compliance for enterprise-grade autonomous and generative AI deployments.",
+      url: "https://www.linkedin.com/pulse/technical-white-paper-implementing-ai-security-definitive-ninan-c6rmc/",
+      readTime: "Executive Architecture Brief",
+      publishedDate: "2026-09-14",
+      publishedDateFormatted: "Sep 14, 2026",
+      accent: "#00f0ff",
+      tags: ["AI Security", "Enterprise Architecture", "Threat Modeling", "AI Governance"]
     }
   ],
 
@@ -248,6 +264,8 @@ export const profileData = {
   contact: {
     email: "georgen2001@gmail.com",
     linkedin: "https://www.linkedin.com/in/george-ninan-31611434",
+    blog: "https://softwaredevelopercentral.blogspot.com/",
+    blogTitle: "Software Developer Central",
     location: "Bengaluru, Karnataka, India",
     status: "Director of Software Engineering @ Sage"
   }

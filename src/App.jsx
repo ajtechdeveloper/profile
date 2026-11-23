@@ -26,7 +26,8 @@ import {
   Globe,
   Radio,
   FileText,
-  BookOpen
+  BookOpen,
+  Calendar
 } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -1029,7 +1030,7 @@ export default function App() {
               </p>
             </div>
 
-            {/* Posts Grid */}
+            {/* Posts Grid (Sorted by Published Date Descending) */}
             <div
               style={{
                 display: 'grid',
@@ -1037,7 +1038,9 @@ export default function App() {
                 gap: '1.8rem'
               }}
             >
-              {profileData.posts.map((post) => (
+              {[...profileData.posts]
+                .sort((a, b) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime())
+                .map((post) => (
                 <article
                   key={post.id}
                   className="timeline-card reveal"
@@ -1052,14 +1055,15 @@ export default function App() {
                   }}
                 >
                   <div>
-                    {/* Header: Category Badge + Read Time */}
+                    {/* Header: Category Badge + Published Date */}
                     <div
                       style={{
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'space-between',
                         gap: '0.8rem',
-                        marginBottom: '1.4rem'
+                        marginBottom: '1.4rem',
+                        flexWrap: 'wrap'
                       }}
                     >
                       <div
@@ -1081,16 +1085,20 @@ export default function App() {
                         <span>{post.category}</span>
                       </div>
 
-                      <span
+                      <div
                         style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '0.4rem',
                           fontFamily: 'var(--font-mono)',
-                          fontSize: '0.72rem',
+                          fontSize: '0.74rem',
                           color: 'var(--text-dim)',
-                          letterSpacing: '0.04em'
+                          letterSpacing: '0.03em'
                         }}
                       >
-                        {post.readTime}
-                      </span>
+                        <Calendar size={13} color="var(--accent-orbit, #38bdf8)" style={{ opacity: 0.85 }} />
+                        <span>{post.publishedDateFormatted || post.publishedDate}</span>
+                      </div>
                     </div>
 
                     {/* Post Title */}
@@ -1101,12 +1109,25 @@ export default function App() {
                         fontWeight: 700,
                         color: '#ffffff',
                         lineHeight: 1.38,
-                        marginBottom: '1rem',
+                        marginBottom: '0.6rem',
                         overflow: 'visible'
                       }}
                     >
                       {post.title}
                     </h3>
+
+                    {/* Format / Read Time Subtitle */}
+                    <div
+                      style={{
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '0.72rem',
+                        color: post.accent,
+                        marginBottom: '1rem',
+                        letterSpacing: '0.04em'
+                      }}
+                    >
+                      {post.readTime}
+                    </div>
 
                     {/* Post Summary */}
                     <p
@@ -1172,6 +1193,92 @@ export default function App() {
                   </a>
                 </article>
               ))}
+            </div>
+
+            {/* Featured Engineering Blog Callout Banner */}
+            <div
+              className="timeline-card reveal"
+              style={{
+                marginTop: '2rem',
+                padding: '2rem 2.4rem',
+                borderLeft: '4px solid #f59e0b',
+                '--card-accent': '#f59e0b',
+                background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(13, 21, 38, 0.8) 100%)',
+                display: 'flex',
+                flexWrap: 'wrap',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: '1.5rem',
+                borderRadius: '8px'
+              }}
+            >
+              <div style={{ maxWidth: '680px' }}>
+                <div
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.45rem',
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '0.72rem',
+                    color: '#f59e0b',
+                    background: 'rgba(245, 158, 11, 0.12)',
+                    border: '1px solid rgba(245, 158, 11, 0.35)',
+                    padding: '0.28rem 0.75rem',
+                    borderRadius: '16px',
+                    letterSpacing: '0.06em',
+                    marginBottom: '0.9rem'
+                  }}
+                >
+                  <BookOpen size={13} />
+                  <span>TECHNICAL BLOG</span>
+                </div>
+                <h3
+                  style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: '1.35rem',
+                    fontWeight: 700,
+                    color: '#ffffff',
+                    marginBottom: '0.5rem',
+                    overflow: 'visible'
+                  }}
+                >
+                  Software Developer Central
+                </h3>
+                <p
+                  style={{
+                    fontSize: '0.9rem',
+                    color: 'var(--text-muted)',
+                    lineHeight: '1.65',
+                    margin: 0
+                  }}
+                >
+                  Deep-dive articles and practical architectural insights on distributed systems, cloud computing, AI workflows, and software engineering craftsmanship.
+                </p>
+              </div>
+
+              <a
+                href={profileData.contact.blog}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => soundEngine.playClick()}
+                onMouseEnter={() => soundEngine.playHover()}
+                className="cyber-btn"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.6rem',
+                  padding: '0.85rem 1.6rem',
+                  fontSize: '0.82rem',
+                  textDecoration: 'none',
+                  background: '#f59e0b',
+                  color: '#030712',
+                  boxShadow: '0 0 25px rgba(245, 158, 11, 0.35)',
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                <span>VISIT TECH BLOG</span>
+                <ExternalLink size={15} />
+              </a>
             </div>
           </div>
         </section>
@@ -1306,6 +1413,18 @@ export default function App() {
               >
                 <ExternalLink size={16} />
                 <span>LINKEDIN PROFILE</span>
+              </a>
+
+              <a
+                href={profileData.contact.blog}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => soundEngine.playClick()}
+                onMouseEnter={() => soundEngine.playHover()}
+                className="cyber-btn cyber-btn-outline"
+              >
+                <BookOpen size={16} />
+                <span>SOFTWARE DEVELOPER CENTRAL</span>
               </a>
             </div>
 
