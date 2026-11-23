@@ -41,11 +41,13 @@ export default function TextPortfolioView({ onSwitchTo3D }) {
         minHeight: '100vh',
         background: '#070b14',
         color: '#f8fafc',
-        padding: '7rem 2rem 5rem 2rem',
+        padding: 'clamp(5.5rem, 8vh, 7rem) clamp(1rem, 3.5vw, 2rem) 5rem clamp(1rem, 3.5vw, 2rem)',
         maxWidth: '940px',
         margin: '0 auto',
         fontFamily: "var(--font-body, 'Space Grotesk', sans-serif)",
-        lineHeight: 1.65
+        lineHeight: 1.65,
+        boxSizing: 'border-box',
+        overflowX: 'hidden'
       }}
       className="text-mode-container"
     >
@@ -406,7 +408,7 @@ export default function TextPortfolioView({ onSwitchTo3D }) {
             // 03 · Published Frameworks & White Papers
           </h2>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))', gap: '1.4rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: '1.4rem' }}>
             {[...profileData.posts]
               .sort((a, b) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime())
               .map((post) => (
@@ -417,10 +419,14 @@ export default function TextPortfolioView({ onSwitchTo3D }) {
                   border: '1px solid rgba(56, 189, 248, 0.25)',
                   borderLeft: `4px solid ${post.accent}`,
                   borderRadius: '10px',
-                  padding: '1.6rem',
+                  padding: 'clamp(1.2rem, 3vw, 1.6rem)',
                   display: 'flex',
                   flexDirection: 'column',
-                  justifyContent: 'space-between'
+                  justifyContent: 'space-between',
+                  minWidth: 0,
+                  boxSizing: 'border-box',
+                  wordBreak: 'break-word',
+                  overflowWrap: 'break-word'
                 }}
               >
                 <div>
@@ -455,11 +461,13 @@ export default function TextPortfolioView({ onSwitchTo3D }) {
                   <h3
                     style={{
                       fontFamily: "'Plus Jakarta Sans', sans-serif",
-                      fontSize: '1.1rem',
+                      fontSize: 'clamp(1rem, 2.5vw, 1.15rem)',
                       fontWeight: 700,
                       color: '#ffffff',
                       marginBottom: '0.8rem',
-                      lineHeight: 1.4
+                      lineHeight: 1.4,
+                      wordBreak: 'break-word',
+                      overflowWrap: 'break-word'
                     }}
                   >
                     {post.title}
@@ -469,7 +477,9 @@ export default function TextPortfolioView({ onSwitchTo3D }) {
                       fontSize: '0.88rem',
                       color: 'var(--text-muted, #cbd5e1)',
                       lineHeight: 1.6,
-                      marginBottom: '1rem'
+                      marginBottom: '1rem',
+                      wordBreak: 'break-word',
+                      overflowWrap: 'break-word'
                     }}
                   >
                     {post.summary}
@@ -485,13 +495,16 @@ export default function TextPortfolioView({ onSwitchTo3D }) {
                     display: 'inline-flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
+                    gap: '0.5rem',
                     fontSize: '0.78rem',
                     textDecoration: 'none',
-                    padding: '0.6rem 1rem'
+                    padding: '0.65rem 1rem',
+                    maxWidth: '100%',
+                    boxSizing: 'border-box'
                   }}
                 >
-                  <span>Read Publication on LinkedIn</span>
-                  <ExternalLink size={14} />
+                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Read Publication on LinkedIn</span>
+                  <ExternalLink size={14} style={{ flexShrink: 0 }} />
                 </a>
               </article>
             ))}
@@ -501,7 +514,7 @@ export default function TextPortfolioView({ onSwitchTo3D }) {
           <div
             style={{
               marginTop: '1.6rem',
-              padding: '1.4rem 1.6rem',
+              padding: 'clamp(1.2rem, 3vw, 1.6rem)',
               borderLeft: '4px solid #f59e0b',
               background: 'rgba(245, 158, 11, 0.06)',
               border: '1px solid rgba(245, 158, 11, 0.25)',
@@ -511,10 +524,12 @@ export default function TextPortfolioView({ onSwitchTo3D }) {
               flexWrap: 'wrap',
               alignItems: 'center',
               justifyContent: 'space-between',
-              gap: '1.2rem'
+              gap: '1.2rem',
+              minWidth: 0,
+              boxSizing: 'border-box'
             }}
           >
-            <div style={{ maxWidth: '620px' }}>
+            <div style={{ maxWidth: '620px', minWidth: 0 }}>
               <div
                 style={{
                   fontFamily: 'var(--font-mono)',
@@ -533,10 +548,12 @@ export default function TextPortfolioView({ onSwitchTo3D }) {
               <h3
                 style={{
                   fontFamily: "'Plus Jakarta Sans', sans-serif",
-                  fontSize: '1.15rem',
+                  fontSize: 'clamp(1rem, 2.5vw, 1.15rem)',
                   fontWeight: 700,
                   color: '#ffffff',
-                  marginBottom: '0.4rem'
+                  marginBottom: '0.4rem',
+                  wordBreak: 'break-word',
+                  overflowWrap: 'break-word'
                 }}
               >
                 Software Developer Central
@@ -546,7 +563,9 @@ export default function TextPortfolioView({ onSwitchTo3D }) {
                   fontSize: '0.86rem',
                   color: 'var(--text-muted, #cbd5e1)',
                   lineHeight: 1.6,
-                  margin: 0
+                  margin: 0,
+                  wordBreak: 'break-word',
+                  overflowWrap: 'break-word'
                 }}
               >
                 Explore deep-dive technical articles and engineering methodologies authored on cloud-native patterns, distributed systems, and modern software craft.
@@ -567,7 +586,9 @@ export default function TextPortfolioView({ onSwitchTo3D }) {
                 textDecoration: 'none',
                 padding: '0.6rem 1.2rem',
                 borderColor: '#f59e0b',
-                color: '#f59e0b'
+                color: '#f59e0b',
+                maxWidth: '100%',
+                boxSizing: 'border-box'
               }}
             >
               <span>Read Articles on Blogspot</span>
@@ -643,8 +664,8 @@ export default function TextPortfolioView({ onSwitchTo3D }) {
       <section
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: '2rem',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
+          gap: '1.6rem',
           marginBottom: '4rem'
         }}
       >
